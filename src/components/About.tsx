@@ -1,45 +1,27 @@
-import { Cloud, Code2, Database, Layout, Server } from "lucide-react";
+import { Cloud, Database, Layout, Server } from "lucide-react";
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef, useState } from "react";
+import { stats, expertise } from "@/data/about";
+import { profile } from "@/data/profile";
+import type { ExpertiseIconName } from "@/data/about";
+import type { LucideIcon } from "lucide-react";
+
+/**
+ * Icon mapping for expertise areas
+ * Maps string icon names from data to actual Lucide components
+ */
+const iconMap: Record<ExpertiseIconName, LucideIcon> = {
+  Layout,
+  Server,
+  Database,
+  Cloud,
+};
 
 const About = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
   const [hoveredStat, setHoveredStat] = useState<number | null>(null);
-
-  const stats = [
-    { value: "1+", label: "Years Experience", secret: "Started in 2024 🚀" },
-    { value: "2", label: "Happy Clients", secret: "High satisfaction 🎯" },
-    { value: "99%", label: "Code Coverage", secret: "Tests are love ❤️" },
-  ];
-
-  const expertise = [
-    {
-      icon: Layout,
-      title: "User Interfaces",
-      description:
-        "Building consumer facing  products/services that they will love and have an easy time using — building credibility and trust with the customer",
-    },
-    {
-      icon: Server,
-      title: "Server-side Business Logic",
-      description:
-        "Web apps and services that improve the efficiency of your business operations and grow as your business grows.",
-    },
-    {
-      icon: Database,
-      title: "Data Engineering",
-      description:
-        "Personalized content and real-time updates while being secure. Providing better customer service and tailored experiences.",
-    },
-    {
-      icon: Cloud,
-      title: "Cloud Adoption & Migration",
-      description:
-        "The cloud is the primary driver for a business' 'digital evolution' enabling faster time-to-market for new products and immediate access to advanced technologies like Generative AI and data analytics that will help you make data-driven decisions and provide that competitive edge",
-    },
-  ];
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -82,10 +64,10 @@ const About = () => {
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.6, delay: 0.1 }}
             >
-              I understand your demands
+              {profile.about.heading.line1}
               <br />
               <span className="text-highlight">
-                & provide quality solutions
+                {profile.about.heading.line2}
               </span>
             </motion.h2>
 
@@ -95,20 +77,9 @@ const About = () => {
               animate={isInView ? { opacity: 1 } : {}}
               transition={{ duration: 0.6, delay: 0.2 }}
             >
-              <p>
-                For over a year now, I have been helping businesses in Kenya
-                best engage their customers online - whether they are just
-                learning more about you before they contact you or using your
-                online tools no matter where you or they are.
-              </p>
-              <p>
-                How do I do this? — I build websites and applications that not
-                only serve the customer fast and efficiently, but also look
-                really good doing it. My approach combines the rigor of
-                engineering with the creativity of design all to provide the
-                customer with the experience && satisfaction they come looking
-                for.
-              </p>
+              {profile.about.bio.map((paragraph, index) => (
+                <p key={index}>{paragraph}</p>
+              ))}
             </motion.div>
 
             {/* Stats grid with easter egg tooltips */}
@@ -161,34 +132,37 @@ const About = () => {
             initial="hidden"
             animate={isInView ? "visible" : "hidden"}
           >
-            {expertise.map((item, index) => (
-              <motion.div
-                key={item.title}
-                className="group p-6 border border-border bg-card/50 hover:border-primary/50 transition-all duration-500"
-                variants={itemVariants}
-                whileHover={{ x: 10, borderColor: "hsl(var(--primary))" }}
-              >
-                <div className="flex items-start gap-4">
-                  <motion.div
-                    className="w-12 h-12 flex items-center justify-center border border-primary/30 group-hover:border-primary group-hover:bg-primary/10 transition-all duration-300"
-                    whileHover={{ rotate: 5 }}
-                  >
-                    <item.icon className="w-5 h-5 text-primary" />
-                  </motion.div>
-                  <div className="flex-1">
-                    <div className="flex items-center gap-3 mb-2">
-                      <span className="font-mono text-xs text-primary/60">
-                        0{index + 1}
-                      </span>
-                      <h3 className="font-semibold">{item.title}</h3>
+            {expertise.map((item, index) => {
+              const IconComponent = iconMap[item.iconName];
+              return (
+                <motion.div
+                  key={item.title}
+                  className="group p-6 border border-border bg-card/50 hover:border-primary/50 transition-all duration-500"
+                  variants={itemVariants}
+                  whileHover={{ x: 10, borderColor: "hsl(var(--primary))" }}
+                >
+                  <div className="flex items-start gap-4">
+                    <motion.div
+                      className="w-12 h-12 flex items-center justify-center border border-primary/30 group-hover:border-primary group-hover:bg-primary/10 transition-all duration-300"
+                      whileHover={{ rotate: 5 }}
+                    >
+                      <IconComponent className="w-5 h-5 text-primary" />
+                    </motion.div>
+                    <div className="flex-1">
+                      <div className="flex items-center gap-3 mb-2">
+                        <span className="font-mono text-xs text-primary/60">
+                          0{index + 1}
+                        </span>
+                        <h3 className="font-semibold">{item.title}</h3>
+                      </div>
+                      <p className="text-sm text-muted-foreground">
+                        {item.description}
+                      </p>
                     </div>
-                    <p className="text-sm text-muted-foreground">
-                      {item.description}
-                    </p>
                   </div>
-                </div>
-              </motion.div>
-            ))}
+                </motion.div>
+              );
+            })}
           </motion.div>
         </div>
       </div>

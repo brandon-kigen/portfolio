@@ -1,62 +1,11 @@
 import { motion, useInView } from "framer-motion";
 import { useRef, useState } from "react";
+import { skillCategories, skillFacts } from "@/data/skills";
 
 const Skills = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
   const [clickedSkill, setClickedSkill] = useState<string | null>(null);
-
-  const skillCategories = [
-    {
-      title: "Languages",
-      skills: ["TypeScript", "JavaScript", "Python", "Go", "SQL"],
-    },
-    {
-      title: "Frontend",
-      skills: [
-        "React",
-        "Next.js",
-        "TanStack Start",
-        "Tailwind CSS",
-        "Three.js",
-      ],
-    },
-    {
-      title: "Backend",
-      skills: ["NestJS", "ExpressJS", "FastAPI", "Django + DRF", "GraphQL"],
-    },
-    {
-      title: "Infrastructure",
-      skills: [
-        "AWS",
-        "GCP",
-        "Docker",
-        "Kubernetes",
-        "Terraform",
-        "CI/CD",
-        "Microservices",
-      ],
-    },
-    {
-      title: "Databases",
-      skills: ["PostgreSQL", "MongoDB", "Redis", "Firebase", "Supabase"],
-    },
-    {
-      title: "Tools",
-      skills: ["Git", "Figma", "Jira", "Sentry", "Postman"],
-    },
-  ];
-
-  // Easter egg: skill fun facts
-  const skillFacts: Record<string, string> = {
-    TypeScript: "Favorite! 💙",
-    React: "Since 2018",
-    Python: "For ML projects",
-    Docker: "🐳 Everything in containers",
-    PostgreSQL: "Best database ever",
-    Redis: "Speed demon ⚡",
-    Kubernetes: "K8s master",
-  };
 
   const handleSkillClick = (skill: string) => {
     if (skillFacts[skill]) {

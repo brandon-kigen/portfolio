@@ -4,7 +4,6 @@ import {
   Linkedin,
   Mail,
   MapPin,
-  Coffee,
   PhoneCall,
   Calendar,
   Globe,
@@ -12,6 +11,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { motion, useInView } from "framer-motion";
 import { useRef, useState } from "react";
+import { profile } from "@/data/profile";
 
 const Contact = () => {
   const ref = useRef(null);
@@ -32,6 +32,11 @@ const Contact = () => {
     });
   };
 
+  const socialLinks = [
+    { Icon: Github, href: profile.social.github },
+    { Icon: Linkedin, href: profile.social.linkedin },
+  ];
+
   return (
     <section
       id="contact"
@@ -47,7 +52,7 @@ const Contact = () => {
           className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-50 bg-primary text-primary-foreground px-8 py-4 font-mono text-center"
         >
           <Globe className="w-8 h-8 mx-auto mb-2" />
-          <p>Your local engineer 🇰🇪. Providing global results!</p>
+          <p>Your local engineer {profile.location.flag}. Providing global results!</p>
         </motion.div>
       )}
 
@@ -101,7 +106,7 @@ const Contact = () => {
             <div className="space-y-6">
               {/* Email */}
               <motion.a
-                href="mailto:kigenbrandon@outlook.com"
+                href={`mailto:${profile.contact.email}`}
                 className="flex items-center gap-4 group"
                 initial={{ opacity: 0, x: -20 }}
                 animate={isInView ? { opacity: 1, x: 0 } : {}}
@@ -119,14 +124,14 @@ const Contact = () => {
                     Email
                   </span>
                   <span className="font-semibold group-hover:text-primary transition-colors">
-                    kigenbrandon@outlook.com
+                    {profile.contact.email}
                   </span>
                 </div>
               </motion.a>
 
               {/* WhatsApp/Phone - Fastest Response */}
               <motion.a
-                href="https://wa.me/254720053058"
+                href={profile.contact.whatsapp}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-4 group relative"
@@ -157,14 +162,14 @@ const Contact = () => {
                     </div>
                   </div>
                   <span className="font-semibold group-hover:text-primary transition-colors">
-                    +254 720 053 058
+                    {profile.contact.phone}
                   </span>
                 </div>
               </motion.a>
 
               {/* Schedule Chat - Calendly */}
               <motion.a
-                href="https://calendly.com/brandon-kigen"
+                href={profile.contact.calendly}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-4 group"
@@ -208,7 +213,9 @@ const Contact = () => {
                   <span className="font-mono text-xs text-muted-foreground uppercase tracking-widest block mb-1">
                     Location
                   </span>
-                  <span className="font-semibold">Nairobi, KE 🇰🇪</span>
+                  <span className="font-semibold">
+                    {profile.location.city}, {profile.location.countryCode} {profile.location.flag}
+                  </span>
                   {coffeeClicks > 0 && coffeeClicks < 5 && (
                     <span className="ml-2 text-xs text-primary">
                       {5 - coffeeClicks} more...
@@ -229,13 +236,7 @@ const Contact = () => {
                 Connect
               </span>
               <div className="flex gap-4">
-                {[
-                  { Icon: Github, href: "https://github.com/brandon-kigen" },
-                  {
-                    Icon: Linkedin,
-                    href: "https://www.linkedin.com/in/brandon-kigen/",
-                  },
-                ].map(({ Icon, href }, index) => (
+                {socialLinks.map(({ Icon, href }, index) => (
                   <motion.a
                     key={index}
                     href={href}
