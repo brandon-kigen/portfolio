@@ -1,6 +1,7 @@
 import { ArrowDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
+import { profile } from "@/data/profile";
 
 const Hero = () => {
   return (
@@ -41,7 +42,7 @@ const Hero = () => {
               animate={{ width: 48 }}
               transition={{ duration: 0.8, delay: 0.2 }}
             />
-            <span className="section-number">/ JAMBO</span>
+            <span className="section-number">{profile.hero.greeting}</span>
           </motion.div>
 
           {/* Main heading */}
@@ -51,7 +52,7 @@ const Hero = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
           >
-            Brandon Kigen
+            {profile.name}
             <br />
             <motion.span
               className="text-highlight text-6xl"
@@ -60,7 +61,8 @@ const Hero = () => {
               transition={{ duration: 0.5, delay: 0.6 }}
             >
               <motion.span className="">
-                Software Product <br /> Engineer
+                {profile.title.split(" ").slice(0, 2).join(" ")} <br />
+                {profile.title.split(" ").slice(2).join(" ")}
               </motion.span>
             </motion.span>
             <br />
@@ -74,11 +76,10 @@ const Hero = () => {
             transition={{ duration: 0.8, delay: 0.4 }}
           >
             <span className=" text-foreground text-2xl pb-1">
-              Do YOU 🫵 have a digital blueprint for your business ?
+              {profile.hero.tagline}
             </span>
-            <br />I help you & your business build the necessary digital
-            infrastructure that will get you that 24/7 digital presence,
-            credibility and revenue that you envision in your blueprint.
+            <br />
+            {profile.hero.description}
           </motion.p>
 
           {/* CTA Buttons */}
@@ -116,7 +117,7 @@ const Hero = () => {
             transition={{ duration: 0.8, delay: 0.8 }}
           >
             <span className="font-mono text-xs text-muted-foreground uppercase tracking-widest">
-              Available For Your Next Project
+              {profile.hero.availability}
             </span>
           </motion.div>
         </div>
